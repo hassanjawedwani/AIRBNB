@@ -1,0 +1,67 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+
+<h1 class="card-title" style="text-align: center;"><%=list.title%></h1>
+<div class="card col" style="width: 50rem; border: none; margin: 40px auto ">
+  <img src="<%=list.image.url%>" class="card-img-top" style="height: 30rem;" alt="">
+  <h3>Owned by: <%=list.owner.username%></h3>
+  <div class="card-body">
+    <p class="card-text"><%=list.description%></p>
+    <p class="card-text"><strong>&#x20A8; <%=list.price.toLocaleString("en-PK")%> / night</strong></p> 
+    <p class="card-text"><%=list.location%></p>
+    <p class="card-text"><%=list.country%></p>
+    <% if(currentUser && currentUser._id.equals(list.owner._id)) {%>
+      <div style="display: flex; gap: 10px; padding: 10px 10px 10px 0;" >
+        <form action="/listings/<%=list._id%>/edit" method="GET">
+          <button class="btn btn-success" type="submit">Edit</butt>
+        </form>
+        <br />
+        <form action="/listings/<%=list._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </div>
+    <% } %>
+    <% if(currentUser) {%>
+    <div>
+      <form action="/listings/<%=list._id%>/review" method="GET">
+      <button class="btn btn-primary" type="submit" style="width: 100%">Give a Review</button>
+      </form>
+    </div>
+    <% } %>
+  </div>
+  <div>
+    <% if(list.reviews.length) { %>
+      <h2>Reviews</h2>
+    <% for(const rev of list.reviews)  {%>
+    <div class="card">
+     <div class="card-body">
+        <h5 class="card-title">@<%=rev.author.username%></h5>
+        <p class="starability-result card-text" data-rating="<%=rev.rating%>"></p>
+        <p class="card-text"><%=rev.comment%></p> 
+        <% if(rev.author.equals(currentUser._id)) { %>
+          <form action="/listings/<%=list._id%>/review/<%=rev._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        <% } %>
+      </div> 
+    </div> 
+    <% } %>
+    <% } %>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var lat = <%- list.geometry.location.coordinates[1] %>;
+        var long = <%- list.geometry.location.coordinates[0] %>;
+        var map = L.map('map').setView([lat, long], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([lat, long]).addTo(map)
+          .bindPopup('<%=list.geometry.name%>')
+          .openPopup();
+      });
+    </script>
+  </div>
+</div>

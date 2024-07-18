@@ -1,0 +1,47 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+
+<div class="row" style="margin-top: 70px;">
+  <div class="col-8">
+    <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+      <div class="mb-3 col">
+      <label for="title" class="form-label"> Enter title:*
+      </label>
+      <input id="title" name="title" class="form-control" type="text" placeholder="Luxery House on Beach..." required/>
+      <div class="invalid-feedback"> Enter Valid input </div>
+      </div>
+      <div class="mb-3">
+      <label for="description" class="form-label"> Enter description:*
+      </label>
+      <input id="description" name="description" class="form-control" type="text" placeholder="4 bed rooms, 2 baths..." required/>
+      <div class="invalid-feedback"> Enter Valid input </div>
+      </div>
+      <div class="mb-3">
+
+      <div class="mb-3">
+        <label for="image" class="form-label"> Upload image
+        </label>
+        <input id="image" name="image" class="form-control" type="file"/>
+      </div>
+
+      <div class="mb-3">
+      <label for="price" class="form-label"> Enter price:*
+      </label>
+      <input id="price" name="price"  class="form-control" type="number" placeholder="9000..." />
+      <div class="invalid-feedback"> Enter Valid input </div>
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label"> Enter country:*
+        </label>
+        <input id="country" name="country" class="form-control" type="text" placeholder="United Kingdom" required/>
+        <div class="invalid-feedback"> Enter Valid input </div>
+      </div>
+      <div class="mb-3">
+      <label for="location" class="form-label"> Enter location:*
+      </label>
+      <input id="location" name="location"  class="form-control" type="text" placeholder="London" required/>
+      <div class="invalid-feedback"> Enter Valid input </div>
+      </div>
+      <button type="submit" class="btn btn-danger" style="display:block; margin: 40px auto" >Add List</button>
+    </form>
+  </div>
+</div>

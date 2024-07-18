@@ -1,0 +1,166 @@
+<% layout('./layouts/boilerplate.ejs') -%>
+<h3><%=message%></h3>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+
+  .filter {
+    opacity: 0.7;
+    text-align: center;
+    margin-right: 1rem;
+    padding: 2px;
+  }
+
+  .filter > i {
+    height: 20px;
+  }
+
+  .filter > p {
+    font-size: 0.8rem;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .tax-text {
+    margin-left: 0.6rem;
+  }
+
+  .listings-nav-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .switch {
+    border: 2px solid grey;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+
+</style>
+<div class="listings-nav-filter">
+  <div class="filters">
+    <div class="filter">
+      <i class="fa-solid fa-fire"></i>
+      <p>Trending</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-bed"></i>
+      <p>Rooms</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-mountain-city"></i>
+      <p>Iconic Cities</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-mountain"></i>
+      <p>Mountains</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-chess-rook"></i>
+      <p>Castles</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-person-swimming"></i>
+      <p>Amazing Pools</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-tent"></i>
+      <p>Camping</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-cow"></i>
+      <p>Farms</p>
+    </div>
+  
+    <div class="filter">
+      <i class="fa-solid fa-snowflake"></i>
+      <p>Arcitic</p>
+    </div>
+  </div>
+  <div class="form-check-reverse form-switch switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="flexSwitchCheckDefault"
+    />
+    <label class="form-check-label" for="flexSwitchCheckDefault"
+      >Display total before taxes</label
+    >
+  </div>
+</div>
+
+<!-- <h1>All Listings</h1> -->
+<div
+  class="row row-cols-lg-3 row-cols-med-2 row-cols-sm-1"
+  style="margin-top: 20px; gap: 20px"
+>
+  <%for (const list of listings) { %>
+  <div class="card col" style="width: 18rem; border: none">
+    <a href="/listings/<%=list._id%>" class="card-overlay">
+      <img
+        src="<%=list.image.url%>"
+        class="card-img-top"
+        style="height: 18rem"
+        alt=""
+      />
+      <div class="card-body">
+        <h5 class="card-title">
+          <a
+            style="text-decoration: none; color: #222222"
+            href="/listings/<%=list._id%>"
+            ><%=list.title%></a
+          >
+        </h5>
+        <!-- <p class="card-text"><%=list.description%></p> -->
+        <p class="card-text">
+          <strong>
+            <span>&#x20A8;</span>
+            <span><%=list.price.toLocaleString("en-PK")%>/night</span>
+            <span class="tax-text"> +18% GST</span>
+          </strong>
+        </p>
+        <!-- <p class="card-text"><%=list.location%></p>
+          <p class="card-text"><%=list.country%></p>
+          <form action='listings/<%=list._id%>/edit' method="GET">
+            <button class="btn btn-primary" type="submit">Edit</button>
+          </form>
+          <br />
+          <form action="/listings/<%=list._id%>?_method=DELETE" method="POST">
+            <a class="btn btn-primary" type="submit">Delete</a>
+          </form> -->
+      </div>
+    </a>
+  </div>
+  <% } %>
+</div>
+
+<script>
+  const taxToggle = document.getElementById("flexSwitchCheckDefault");
+  taxToggle.addEventListener("click", () => {
+    const taxTexts = document.getElementsByClassName("tax-text");
+
+    for (const taxText of taxTexts) {
+      if (taxText.style.display != "none") {
+        taxText.style.display = "none";
+      } else {
+        taxText.style.display = "inline";
+      }
+    }
+  });
+</script>
